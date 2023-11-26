@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Lịch trình chiếu sáng</title>
+    <link rel="stylesheet" th:href="@{/styles.css}">
+</head>
+<body>
+<nav id="navbar">
+    <div class="container">
+        <ul>
+            <li><a href="/pots">Các chậu cây</a></li>
+            <li><a class="current" href="/schedules">Các lịch trình</a></li>
+            <li>
+                <form action="/logout" id="logout-button" method="post">
+                    <button type="submit">Đăng xuất</button>
+                </form>
+            </li>
+        </ul>
+    </div>
+</nav>
+<div class=form-container>
+    <div class="form-wrap">
+        <form id="myForm" method=post
+              th:action="@{/schedules/{scheduleId}/lightSchedules/{lightScheduleId}(scheduleId=${scheduleId},lightScheduleId = ${lightSchedule.id})}"
+              th:object="${lightSchedule}">
+            <h2>Lịch chiếu sáng</h2>
+            <p id="message"></p>
+            <input type="hidden" th:field="*{id}">
+            <div class="form-group">
+                <label for="startTime">Giờ bắt đầu</label>
+                <input id="startTime" type="time" min="00:00" max="24:00" th:field="*{startTime}" required/>
+            </div>
+            <div class="form-group">
+                <label for="endTime">Giờ kết thúc</label>
+                <input id="endTime" type="time" min="00:00" max="24:00" th:field="*{endTime}" required/>
+            </div>
+            <div class="form-group">
+                <label for="lightIntensity">Cường độ sáng mong muốn</label>
+                <input type="text" id="lightIntensity" th:field="*{lightIntensity}">
+            </div>
+            <button onclick="submit()">Lưu</button>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>
+<script th:inline="javascript">
+    function submit() {
+        console.log(document.getElementById("lightIntensity").value);
+        var startTime = document.getElementById("startTime");
+        var endTime = document.getElementById("endTime");
+
+        if (startTime.value >= endTime.value) {
+            $("#message")[0].setCustomValidity(
+                alert("Return Time cannot be less than Start Time")
+            );
+        } else {
+            document.getElementById("myForm").submit();
+        }
+    }
+</script>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Thêm chậu cây</title>
+    <link rel="stylesheet" th:href="@{/styles.css}">
+</head>
+<body>
+<nav id="navbar">
+    <div class="container">
+        <ul>
+            <li><a class="current" href="/pots">Các chậu cây</a></li>
+            <li><a href="/schedules">Các lịch trình</a></li>
+            <li>
+                <form action="/logout" id="logout-button" method="post">
+                    <button type="submit">Đăng xuất</button>
+                </form>
+            </li>
+        </ul>
+    </div>
+</nav>
+<div class="form-container">
+    <div class="form-wrap">
+        <h2>Thêm chậu cây</h2>
+        <form method="post" th:action="@{/login}" th:object="${potId}">
+            <div class="form-group">
+                <label for="potId">Mã chậu cây</label>
+                <input id="potId" type="text" th:value="${potId}"/>
+            </div>
+            <button type="submit">Xác nhận</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

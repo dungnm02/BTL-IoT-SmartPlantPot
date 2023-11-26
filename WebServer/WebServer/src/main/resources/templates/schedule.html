@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Thông tin lịch trình</title>
+    <link rel="stylesheet" th:href="@{/styles.css}">
+</head>
+<body>
+<nav id="navbar">
+    <div class="container">
+        <ul>
+            <li><a href="/pots">Các chậu cây</a></li>
+            <li><a class="current" href="/schedules">Các lịch trình</a></li>
+            <li>
+                <form action="/logout" id="logout-button" method="post">
+                    <button type="submit">Đăng xuất</button>
+                </form>
+            </li>
+        </ul>
+    </div>
+</nav>
+<div class="form-container">
+    <div class="form-wrap">
+        <form id="myForm" method=post th:action="@{/schedules/{scheduleId}(scheduleId=${scheduleId})}"
+              th:object="${schedule}">
+            <h2>Thông tin lịch trình</h2>
+            <input type="hidden" th:field="*{user}">
+            <input type="hidden" th:field="*{id}">
+            <div class="form-group">
+                <label>Tên lịch trình</label>
+                <input type="text" th:field="*{scheduleName}">
+            </div>
+            <div class="form-group">
+                <label>Mực nước dự trữ tối thiểu</label>
+                <input type="text" th:field="*{minWaterLevel}">
+            </div>
+            <div class="form-group">
+                <label>Độ ẩm mong muốn</label>
+                <input type="text" th:field="*{moisture}">
+            </div>
+        </form>
+    </div>
+</div>
+<label class="table-title">Các lịch chiếu sáng</label>
+<a th:href="@{/schedules/{idSchedule}/lightSchedules/0(idSchedule=${schedule.id})}">
+    <button class="table-submit-button">Thêm lịch chiếu sáng</button>
+</a>
+<table>
+    <tr>
+        <th>STT</th>
+        <th>Giờ bắt đầu</th>
+        <th>Giờ kết thúc</th>
+        <th>Cường độ sáng mong muốn</th>
+    </tr>
+    <tr th:each="lightSchedule,i  : ${schedule.lightSchedules}"
+        th:onclick="'javascript:submitForm( \'' + ${scheduleId} + '\', \'' + ${lightSchedule.id} + '\');'">
+        <td><span th:text="${i.index + 1}"></span></td>
+        <td th:text="${lightSchedule.startTime}"></td>
+        <td th:text="${lightSchedule.endTime}"></td>
+        <td th:text="${lightSchedule.lightIntensity}"></td>
+    </tr>
+</table>
+<div>
+    <button class="table-submit-button" onclick="submit()">Lưu</button>
+</div>
+</body>
+</html>
+
+<script th:inline="javascript">
+    function submitForm(scheduleId, lightScheduleId) {
+        const form = document.createElement('form');
+        form.method = 'get';
+        form.action = "/schedules/" + scheduleId + "/lightSchedules/" + lightScheduleId;
+        document.body.appendChild(form);
+        form.submit();
+    }
+
+    function submit() {
+        document.getElementById("myForm").submit();
+    }
+</script>

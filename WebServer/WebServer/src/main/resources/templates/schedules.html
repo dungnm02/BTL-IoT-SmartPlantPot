@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Các lịch trình</title>
+    <link rel="stylesheet" th:href="@{/styles.css}">
+</head>
+<body>
+<nav id="navbar">
+    <div class="container">
+        <ul>
+            <li><a href="/pots">Các chậu cây</a></li>
+            <li><a class="current" href="/schedules">Các lịch trình</a></li>
+            <li>
+                <form action="/logout" id="logout-button" method="post">
+                    <button type="submit">Đăng xuất</button>
+                </form>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<table>
+    <tr>
+        <th>STT</th>
+        <th>Tên</th>
+    </tr>
+    <tr th:each="schedule,i  : ${userSchedules}" th:onclick="'javascript:submitForm(\'' + ${schedule.id} + '\');'">
+        <td>
+            <span th:text="${i.index + 1}"></span>
+        </td>
+        <td th:text="${schedule.scheduleName}"></td>
+    </tr>
+</table>
+<a href="/schedules/create">
+    <button class="table-submit-button">Tạo lịch trình mới</button>
+</a>
+<a href="/schedules/recommended">
+    <button class="table-submit-button">Tham khảo lịch trình</button>
+</a>
+</body>
+</html>
+
+
+<script th:inline="javascript">
+
+    function submitForm(scheduleId) {
+        const form = document.createElement('form');
+        form.method = 'get';
+        form.action = `/schedules/` + scheduleId;
+        document.body.appendChild(form);
+        form.submit();
+    }
+</script>

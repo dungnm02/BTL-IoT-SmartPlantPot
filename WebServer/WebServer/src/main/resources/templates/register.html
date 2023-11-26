@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Đăng ký</title>
+    <link rel="stylesheet" th:href="@{/styles.css}">
+</head>
+<body>
+<p th:text="${message}"></p>
+<div class="form-container">
+    <div class="form-wrap">
+        <form method=post th:action="@{/register}" th:object="${user}">
+            <h2>Đăng ký</h2>
+            <input type="hidden" th:field="*{id}">
+            <div class="form-groupm">
+                <label>Họ tên</label>
+                <input type="text" th:field="*{fullName}">
+            </div>
+            <div class="form-groupm">
+                <label>Email</label>
+                <input type="email" th:field="*{email}">
+            </div>
+            <div class="form-groupm">
+                <label>Tên người dùng</label>
+                <input type="text" th:field="*{username}">
+            </div>
+            <div class="form-groupm">
+                <label>Mật khẩu</label>
+                <input type="password" th:field="*{password}">
+            </div>
+            <a th:href="@{/login}">Đăng nhập</a><br>
+            <button type="submit">Xác nhận</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

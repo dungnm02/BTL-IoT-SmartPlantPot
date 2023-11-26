@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Thông tin chậu cây</title>
+    <link rel="stylesheet" th:href="@{/styles.css}">
+</head>
+<body>
+<nav id="navbar">
+    <div class="container">
+        <ul>
+            <li><a class="current" href="/pots">Các chậu cây</a></li>
+            <li><a href="/schedules">Các lịch trình</a></li>
+            <li>
+                <form action="/logout" id="logout-button" method="post">
+                    <button type="submit">Đăng xuất</button>
+                </form>
+            </li>
+        </ul>
+    </div>
+</nav>
+<div class="form-container">
+    <div class="form-wrap">
+        <form method=post th:action="@{/pots/{potId}(potId = ${pot.id})}" th:object="${pot}">
+            <h2>Thông tin lịch trình</h2>
+            <input type="hidden" th:field="*{id}">
+            <input type="hidden" th:field="*{user}">
+            <div class="form-group">
+                <label>Tên chậu cây</label>
+                <input type="text" th:field="*{potName}">
+            </div>
+            <div class="form-group">
+                <label>Loại cây</label>
+                <select th:name="plant">
+                    <option th:each="p : ${plantList}" th:value="${p.id}" th:text="${p.plantName}"></option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Lịch trình</label>
+                <select th:name="schedule">
+                    <option th:each="s : ${scheduleList}" th:value="${s.id}" th:text="${s.scheduleName}"></option>
+                </select>
+            </div>
+            <button type="submit">Lưu</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

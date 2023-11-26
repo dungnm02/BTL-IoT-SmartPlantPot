@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Các chậu cây</title>
+    <link rel="stylesheet" th:href="@{/styles.css}">
+</head>
+<body>
+<nav id="navbar">
+    <div class="container">
+        <ul>
+            <li><a class="current" href="/pots">Các chậu cây</a></li>
+            <li><a href="/schedules">Các lịch trình</a></li>
+            <li>
+                <form action="/logout" id="logout-button" method="post">
+                    <button type="submit">Đăng xuất</button>
+                </form>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<table>
+    <tr>
+        <th>STT</th>
+        <th>Tên chậu cây</th>
+        <th>Loại cây</th>
+        <th>Lịch trình</th>
+    </tr>
+    <tr th:each="pot,i  : ${pots}" th:onclick="'javascript:submitForm(\'' + ${pot.id} + '\');'">
+        <td>
+            <span th:text="${i.index + 1}"></span>
+
+        </td>
+        <td th:text="${pot.potName}"></td>
+        <td th:text="${pot.plant.plantName}"></td>
+        <td th:text="${pot.schedule.scheduleName}"></td>
+    </tr>
+</table>
+<a href="/pots/add">
+    <button class="table-submit-button">Thêm chậu cây</button>
+</a>
+</body>
+</html>
+<script th:inline="javascript">
+    function submitForm(potId) {
+        const form = document.createElement('form');
+        form.method = 'get';
+        form.action = `/pots/` + potId;
+        document.body.appendChild(form);
+        form.submit();
+    }
+</script>
